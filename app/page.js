@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import Header from "@Header";
+import Header from "@components/Header";
 import axios from "axios";
 import { InfinitySpin } from "react-loader-spinner";
-import Card from "../components/Card";
+import Card from "@components/Card";
 const PORT = process.env.PORT || 3000;
 function App() {
   const [search, setSearch] = useState("");
