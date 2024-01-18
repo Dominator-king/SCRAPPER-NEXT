@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Header from "../components/header";
+import Header from "@Header";
 import axios from "axios";
 import { InfinitySpin } from "react-loader-spinner";
 import Card from "../components/Card";
