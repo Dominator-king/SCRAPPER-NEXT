@@ -206,8 +206,7 @@ async function Scrapper(search) {
 
   return arr;
 }
-export async function GET(req) {
-  const search = req.nextUrl.searchParams.get("search");
+export async function GET() {
   const res = await Scrapper("search");
   return new Response(JSON.stringify(res));
 }
