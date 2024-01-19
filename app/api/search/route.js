@@ -9,7 +9,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 }
 async function Scrapper(search) {
   let options = {};
-
+  let browser;
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     options = {
       args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
@@ -18,8 +18,9 @@ async function Scrapper(search) {
       headless: true,
       ignoreHTTPSErrors: true,
     };
+    browser = await chrome.puppeteer.launch(options);
   }
-  let browser = await puppeteer.launch(options);
+  browser = puppeteer.launch();
   async function daraz_scrapper() {
     let pages = await browser.pages();
     let page = pages[0];
