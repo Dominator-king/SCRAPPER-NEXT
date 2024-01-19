@@ -1,15 +1,25 @@
-import puppeteer from "puppeteer";
-require("dotenv").config();
+let chrome = {};
+let puppeteer;
 
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  chrome = require("chrome-aws-lambda");
+  puppeteer = require("puppeteer-core");
+} else {
+  puppeteer = require("puppeteer");
+}
 async function Scrapper(search) {
-  let browser = await puppeteer.launch({
-    args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
-    headless: false,
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-  });
+  let options = {};
+
+  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    options = {
+      args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+      defaultViewport: chrome.defaultViewport,
+      executablePath: await chrome.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
+    };
+  }
+  let browser = await puppeteer.launch(options);
   async function daraz_scrapper() {
     let pages = await browser.pages();
     let page = pages[0];
